@@ -21,7 +21,13 @@ export function MobileNav() {
           const active = path === i.url || path.startsWith(i.url + "/");
           return (
             <li key={i.url}>
-              <Link to={i.url} className={cn("flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium", active ? "text-primary" : "text-muted-foreground")}>
+              <Link
+                to={i.url}
+                className={cn(
+                  "flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium",
+                  active ? "text-primary" : "text-muted-foreground",
+                )}
+              >
                 <i.icon className="size-5" />
                 {i.title}
               </Link>
@@ -29,7 +35,11 @@ export function MobileNav() {
           );
         })}
         <li>
-          <button type="button" onClick={() => setOpenMobile(true)} className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-muted-foreground">
+          <button
+            type="button"
+            onClick={() => setOpenMobile(true)}
+            className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-muted-foreground"
+          >
             <Menu className="size-5" />
             Menu
           </button>

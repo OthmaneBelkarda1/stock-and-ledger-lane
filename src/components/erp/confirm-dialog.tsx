@@ -36,7 +36,10 @@ export function ConfirmDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Annuler</AlertDialogCancel>
-          <AlertDialogAction className={destructive ? buttonVariants({ variant: "destructive" }) : undefined} onClick={onConfirm}>
+          <AlertDialogAction
+            className={destructive ? buttonVariants({ variant: "destructive" }) : undefined}
+            onClick={onConfirm}
+          >
             {confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>

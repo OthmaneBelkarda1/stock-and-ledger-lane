@@ -12,7 +12,13 @@ const map = {
 export function NotifIcon({ niveau, className }: { niveau: NiveauNotif; className?: string }) {
   const { icon: Icon, cls } = map[niveau];
   return (
-    <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-full", cls, className)}>
+    <span
+      className={cn(
+        "flex size-8 shrink-0 items-center justify-center rounded-full",
+        cls,
+        className,
+      )}
+    >
       <Icon className="size-4" />
     </span>
   );

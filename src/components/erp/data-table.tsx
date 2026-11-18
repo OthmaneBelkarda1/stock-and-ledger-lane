@@ -51,7 +51,10 @@ export function DataTable<T>({
     return [...rows].sort((a, b) => {
       const va = f(a);
       const vb = f(b);
-      const r = typeof va === "number" && typeof vb === "number" ? va - vb : String(va).localeCompare(String(vb), "fr");
+      const r =
+        typeof va === "number" && typeof vb === "number"
+          ? va - vb
+          : String(va).localeCompare(String(vb), "fr");
       return sort.dir === "asc" ? r : -r;
     });
   }, [rows, sort, columns]);
@@ -64,7 +67,11 @@ export function DataTable<T>({
 
   const toggle = (c: Column<T>) => {
     if (!c.sort) return;
-    setSort((s) => (s?.id === c.id ? { id: c.id, dir: s.dir === "asc" ? "desc" : "asc" } : { id: c.id, dir: "asc" }));
+    setSort((s) =>
+      s?.id === c.id
+        ? { id: c.id, dir: s.dir === "asc" ? "desc" : "asc" }
+        : { id: c.id, dir: "asc" },
+    );
   };
 
   if (!rows.length) return <EmptyState title={emptyTitle} description={emptyDescription} />;
@@ -81,14 +88,33 @@ export function DataTable<T>({
                   key={c.id}
                   className={cn(
                     "whitespace-nowrap px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-muted-foreground",
-                    c.align === "right" ? "text-right" : c.align === "center" ? "text-center" : "text-left",
+                    c.align === "right"
+                      ? "text-right"
+                      : c.align === "center"
+                        ? "text-center"
+                        : "text-left",
                     c.hideBelow && hideCls[c.hideBelow],
                   )}
                 >
                   {c.sort ? (
-                    <button type="button" onClick={() => toggle(c)} className={cn("inline-flex items-center gap-1 hover:text-foreground", c.align === "right" && "flex-row-reverse")}>
+                    <button
+                      type="button"
+                      onClick={() => toggle(c)}
+                      className={cn(
+                        "inline-flex items-center gap-1 hover:text-foreground",
+                        c.align === "right" && "flex-row-reverse",
+                      )}
+                    >
                       {c.header}
-                      {sort?.id === c.id ? sort.dir === "asc" ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" /> : <ChevronsUpDown className="size-3 opacity-40" />}
+                      {sort?.id === c.id ? (
+                        sort.dir === "asc" ? (
+                          <ArrowUp className="size-3" />
+                        ) : (
+                          <ArrowDown className="size-3" />
+                        )
+                      ) : (
+                        <ChevronsUpDown className="size-3 opacity-40" />
+                      )}
                     </button>
                   ) : (
                     c.header
@@ -102,7 +128,10 @@ export function DataTable<T>({
               <tr
                 key={rowKey(r)}
                 onClick={onRowClick ? () => onRowClick(r) : undefined}
-                className={cn("border-b last:border-0 transition-colors", onRowClick && "cursor-pointer hover:bg-accent/40")}
+                className={cn(
+                  "border-b last:border-0 transition-colors",
+                  onRowClick && "cursor-pointer hover:bg-accent/40",
+                )}
               >
                 {columns.map((c) => (
                   <td
@@ -110,7 +139,11 @@ export function DataTable<T>({
                     className={cn(
                       "px-4 align-middle",
                       dense ? "py-2" : "py-3",
-                      c.align === "right" ? "text-right tabular" : c.align === "center" ? "text-center" : "text-left",
+                      c.align === "right"
+                        ? "text-right tabular"
+                        : c.align === "center"
+                          ? "text-center"
+                          : "text-left",
                       c.hideBelow && hideCls[c.hideBelow],
                       c.className,
                     )}
@@ -126,7 +159,11 @@ export function DataTable<T>({
       {/* Smartphone */}
       <ul className="divide-y md:hidden">
         {view.map((r) => (
-          <li key={rowKey(r)} onClick={onRowClick ? () => onRowClick(r) : undefined} className={cn("px-4 py-3", onRowClick && "cursor-pointer active:bg-accent/40")}>
+          <li
+            key={rowKey(r)}
+            onClick={onRowClick ? () => onRowClick(r) : undefined}
+            className={cn("px-4 py-3", onRowClick && "cursor-pointer active:bg-accent/40")}
+          >
             {mobileCard(r)}
           </li>
         ))}
@@ -134,16 +171,31 @@ export function DataTable<T>({
       {sorted.length > pageSize && (
         <div className="flex items-center justify-between gap-2 border-t px-4 py-3 text-xs text-muted-foreground">
           <span className="tabular">
-            {page * pageSize + 1}–{Math.min(sorted.length, (page + 1) * pageSize)} sur {sorted.length}
+            {page * pageSize + 1}–{Math.min(sorted.length, (page + 1) * pageSize)} sur{" "}
+            {sorted.length}
           </span>
           <div className="flex items-center gap-1">
-            <Button variant="outline" size="icon" className="size-8" disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label="Page précédente">
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              disabled={page === 0}
+              onClick={() => setPage((p) => p - 1)}
+              aria-label="Page précédente"
+            >
               <ChevronLeft />
             </Button>
             <span className="px-2 tabular">
               Page {page + 1} / {pages}
             </span>
-            <Button variant="outline" size="icon" className="size-8" disabled={page >= pages - 1} onClick={() => setPage((p) => p + 1)} aria-label="Page suivante">
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              disabled={page >= pages - 1}
+              onClick={() => setPage((p) => p + 1)}
+              aria-label="Page suivante"
+            >
               <ChevronRight />
             </Button>
           </div>

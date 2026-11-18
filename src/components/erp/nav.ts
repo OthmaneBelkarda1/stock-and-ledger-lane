@@ -9,6 +9,7 @@ import {
   Package,
   Receipt,
   Settings,
+  Target,
   ShoppingCart,
   Truck,
   UserCog,
@@ -30,9 +31,16 @@ export interface NavGroup {
 
 const both: Role[] = ["admin", "commercial"];
 const admin: Role[] = ["admin"];
+const commercial: Role[] = ["commercial"];
 
 export const NAV: NavGroup[] = [
-  { label: "Pilotage", items: [{ title: "Tableau de bord", url: "/tableau-de-bord", icon: LayoutDashboard, roles: both }] },
+  {
+    label: "Pilotage",
+    items: [
+      { title: "Tableau de bord", url: "/tableau-de-bord", icon: LayoutDashboard, roles: both },
+      { title: "Mes performances", url: "/performances", icon: Target, roles: commercial },
+    ],
+  },
   {
     label: "Ventes",
     items: [
@@ -40,7 +48,7 @@ export const NAV: NavGroup[] = [
       { title: "Devis", url: "/devis", icon: FileText, roles: both },
       { title: "Commandes", url: "/commandes", icon: ShoppingCart, roles: both },
       { title: "Factures", url: "/factures", icon: Receipt, roles: both },
-      { title: "Paiements", url: "/paiements", icon: CreditCard, roles: both },
+      { title: "Paiements", url: "/paiements", icon: CreditCard, roles: admin },
     ],
   },
   {
@@ -69,4 +77,13 @@ export const NAV: NavGroup[] = [
 ];
 
 export const navFor = (role: Role) =>
-  NAV.map((g) => ({ ...g, items: g.items.filter((i) => i.roles.includes(role)) })).filter((g) => g.items.length);
+  NAV.map((g) => ({ ...g, items: g.items.filter((i) => i.roles.includes(role)) })).filter(
+    (g) => g.items.length,
+  );
+
+/** Rôles autorisés pour un chemin donné (déduit du menu ; contrôle simulé côté interface). */
+export const rolesForPath = (path: string): Role[] => {
+  for (const g of NAV)
+    for (const i of g.items) if (path === i.url || path.startsWith(i.url + "/")) return i.roles;
+  return both;
+};

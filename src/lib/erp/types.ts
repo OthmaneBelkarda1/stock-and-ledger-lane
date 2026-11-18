@@ -66,7 +66,8 @@ export interface Lot {
   dateEntree: string;
 }
 
-export type MovementType = "entree" | "sortie" | "reservation" | "liberation" | "transfert" | "inventaire";
+export type MovementType =
+  "entree" | "sortie" | "reservation" | "liberation" | "transfert" | "inventaire";
 
 export interface Movement {
   id: string;
@@ -146,12 +147,7 @@ export interface Devis {
 }
 
 export type CommandeStatut =
-  | "en_attente"
-  | "confirmee"
-  | "en_preparation"
-  | "prete"
-  | "livree"
-  | "annulee";
+  "en_attente" | "confirmee" | "en_preparation" | "prete" | "livree" | "annulee";
 
 export interface Commande {
   id: string;

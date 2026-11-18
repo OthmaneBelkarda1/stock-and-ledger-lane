@@ -83,9 +83,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Gestion commerciale — Céramique & carrelage" },
-      { name: "description", content: "Plateforme de gestion commerciale, stocks, devis, commandes et facturation pour la vente de céramique et de carrelage." },
+      {
+        name: "description",
+        content:
+          "Plateforme de gestion commerciale, stocks, devis, commandes et facturation pour la vente de céramique et de carrelage.",
+      },
       { property: "og:title", content: "Gestion commerciale — Céramique & carrelage" },
-      { property: "og:description", content: "Plateforme de gestion commerciale pour la vente de céramique et de carrelage." },
+      {
+        property: "og:description",
+        content: "Plateforme de gestion commerciale pour la vente de céramique et de carrelage.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

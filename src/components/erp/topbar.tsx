@@ -1,9 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { FileText, Plus, ShoppingCart, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { DemoGuide } from "./demo-guide";
 import { GlobalSearch } from "./global-search";
 import { NotificationsPopover } from "./notifications-popover";
 import { UserMenu } from "./user-menu";
@@ -41,6 +47,7 @@ export function Topbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <DemoGuide />
         <NotificationsPopover />
         <UserMenu />
       </div>

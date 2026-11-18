@@ -37,7 +37,7 @@ function mulberry32(a: number) {
 export function createSeed(now = new Date()): ErpData {
   const rnd = mulberry32(20261118);
   const ri = (a: number, b: number) => Math.floor(rnd() * (b - a + 1)) + a;
-  const pick = <T,>(arr: T[]) => arr[Math.floor(rnd() * arr.length)];
+  const pick = <T>(arr: T[]) => arr[Math.floor(rnd() * arr.length)];
   const daysAgo = (d: number, h = ri(8, 18), m = ri(0, 59)) => {
     const x = new Date(now);
     x.setDate(x.getDate() - d);
@@ -101,47 +101,420 @@ export function createSeed(now = new Date()): ErpData {
 
   /* ---------- Dépôts ---------- */
   const depots: Depot[] = [
-    { id: "d-casa", nom: "Dépôt principal", ville: "Casablanca", adresse: "Zone industrielle Aïn Sebaâ" },
-    { id: "d-temara", nom: "Dépôt Témara", ville: "Témara", adresse: "Route de Rabat, zone d'activités" },
+    {
+      id: "d-casa",
+      nom: "Dépôt principal",
+      ville: "Casablanca",
+      adresse: "Zone industrielle Aïn Sebaâ",
+    },
+    {
+      id: "d-temara",
+      nom: "Dépôt Témara",
+      ville: "Témara",
+      adresse: "Route de Rabat, zone d'activités",
+    },
     { id: "d-showroom", nom: "Showroom", ville: "Casablanca", adresse: "Boulevard d'Anfa" },
   ];
 
   /* ---------- Fournisseurs ---------- */
   const suppliers: Supplier[] = [
-    { id: "f-iberica", nom: "Ibérica Gres SL", contact: "Javier Morales", telephone: "+34 964 52 18 40", email: "export@iberica-gres.es", adresse: "Polígono Industrial, Castellón", ville: "Castellón", pays: "Espagne" },
-    { id: "f-toscana", nom: "Ceramica Toscana SRL", contact: "Giulia Ferri", telephone: "+39 0536 81 22 70", email: "sales@ceramica-toscana.it", adresse: "Via Emilia, Sassuolo", ville: "Sassuolo", pays: "Italie" },
-    { id: "f-atlas", nom: "Céramique Atlas SARL", contact: "Hicham Ouazzani", telephone: "+212 5 22 66 41 90", email: "commercial@ceramique-atlas.ma", adresse: "Zone industrielle Sapino", ville: "Casablanca", pays: "Maroc" },
-    { id: "f-zellige", nom: "Coopérative Zellige de Fès", contact: "Abdelhak Fassi", telephone: "+212 5 35 64 12 77", email: "contact@zellige-fes.ma", adresse: "Quartier Ain Nokbi", ville: "Fès", pays: "Maroc" },
-    { id: "f-pro", nom: "Pose Pro Distribution", contact: "Samir Bouzid", telephone: "+212 5 37 29 55 10", email: "ventes@posepro.ma", adresse: "Zone industrielle Takadoum", ville: "Rabat", pays: "Maroc" },
+    {
+      id: "f-iberica",
+      nom: "Ibérica Gres SL",
+      contact: "Javier Morales",
+      telephone: "+34 964 52 18 40",
+      email: "export@iberica-gres.es",
+      adresse: "Polígono Industrial, Castellón",
+      ville: "Castellón",
+      pays: "Espagne",
+    },
+    {
+      id: "f-toscana",
+      nom: "Ceramica Toscana SRL",
+      contact: "Giulia Ferri",
+      telephone: "+39 0536 81 22 70",
+      email: "sales@ceramica-toscana.it",
+      adresse: "Via Emilia, Sassuolo",
+      ville: "Sassuolo",
+      pays: "Italie",
+    },
+    {
+      id: "f-atlas",
+      nom: "Céramique Atlas SARL",
+      contact: "Hicham Ouazzani",
+      telephone: "+212 5 22 66 41 90",
+      email: "commercial@ceramique-atlas.ma",
+      adresse: "Zone industrielle Sapino",
+      ville: "Casablanca",
+      pays: "Maroc",
+    },
+    {
+      id: "f-zellige",
+      nom: "Coopérative Zellige de Fès",
+      contact: "Abdelhak Fassi",
+      telephone: "+212 5 35 64 12 77",
+      email: "contact@zellige-fes.ma",
+      adresse: "Quartier Ain Nokbi",
+      ville: "Fès",
+      pays: "Maroc",
+    },
+    {
+      id: "f-pro",
+      nom: "Pose Pro Distribution",
+      contact: "Samir Bouzid",
+      telephone: "+212 5 37 29 55 10",
+      email: "ventes@posepro.ma",
+      adresse: "Zone industrielle Takadoum",
+      ville: "Rabat",
+      pays: "Maroc",
+    },
   ];
 
   /* ---------- Produits ---------- */
-  type PDef = [string, Product["categorie"], string, Product["finition"], string, number, number, number, string, string, string, string, string, number];
+  type PDef = [
+    string,
+    Product["categorie"],
+    string,
+    Product["finition"],
+    string,
+    number,
+    number,
+    number,
+    string,
+    string,
+    string,
+    string,
+    string,
+    number,
+  ];
   // nom, catégorie, dimension, finition, image, prix m², m²/carton, pièces/carton, couleur, matière, marque, collection, fournisseur, seuil
   const defs: PDef[] = [
-    ["Calacatta Oro Poli", "Grès cérame", "60 × 120 cm", "Poli", "marbre-blanc", 289, 1.44, 2, "Blanc veiné or", "Grès cérame rectifié", "Toscana", "Marmi", "f-toscana", 40],
-    ["Statuario Grand Format", "Grès cérame", "120 × 120 cm", "Poli", "marbre-blanc", 420, 1.44, 1, "Blanc statuaire", "Grès cérame rectifié", "Toscana", "Marmi XL", "f-toscana", 30],
-    ["Nero Marquina", "Marbre", "60 × 60 cm", "Poli", "marbre-noir", 650, 1.08, 3, "Noir veiné blanc", "Marbre naturel", "Ibérica", "Piedra Noble", "f-iberica", 25],
-    ["Carrare Blanc Naturel", "Marbre", "30 × 60 cm", "Poli", "marbre-blanc", 540, 1.08, 6, "Blanc gris", "Marbre naturel", "Toscana", "Classici", "f-toscana", 25],
-    ["Béton Urbain Anthracite", "Carrelage intérieur", "60 × 60 cm", "Mat", "beton-anthracite", 165, 1.44, 4, "Anthracite", "Grès émaillé", "Atlas", "Urbain", "f-atlas", 60],
-    ["Béton Urbain Anthracite XL", "Grès cérame", "80 × 80 cm", "Mat", "beton-anthracite", 215, 1.28, 2, "Anthracite", "Grès cérame pleine masse", "Ibérica", "Urbain", "f-iberica", 40],
-    ["Chêne Naturel Parquet", "Carrelage intérieur", "20 × 120 cm", "Structuré", "bois-chene", 189, 1.44, 6, "Chêne miel", "Grès cérame", "Ibérica", "Bosque", "f-iberica", 50],
-    ["Travertin Romain", "Carrelage intérieur", "60 × 60 cm", "Mat", "travertin-beige", 175, 1.44, 4, "Beige", "Grès émaillé", "Atlas", "Pietra", "f-atlas", 50],
-    ["Travertin Terrasse Antidérapant", "Carrelage extérieur", "60 × 60 cm", "Antidérapant", "travertin-beige", 195, 1.44, 4, "Beige sable", "Grès cérame R11", "Atlas", "Pietra Outdoor", "f-atlas", 40],
-    ["Pierre Grise Terrasse", "Carrelage extérieur", "45 × 45 cm", "Antidérapant", "exterieur-gris", 129, 1.62, 8, "Gris perle", "Grès cérame R11", "Atlas", "Roca", "f-atlas", 60],
-    ["Pierre Grise Plage Piscine", "Carrelage extérieur", "30 × 30 cm", "Antidérapant", "exterieur-gris", 145, 1.08, 12, "Gris clair", "Grès cérame R12", "Ibérica", "Roca", "f-iberica", 40],
-    ["Terrazzo Sable", "Grès cérame", "60 × 60 cm", "Mat", "terrazzo-beige", 235, 1.44, 4, "Sable multicolore", "Grès cérame", "Toscana", "Venezia", "f-toscana", 35],
-    ["Terrazzo Sable Poli", "Grès cérame", "80 × 80 cm", "Poli", "terrazzo-beige", 265, 1.28, 2, "Sable multicolore", "Grès cérame", "Toscana", "Venezia", "f-toscana", 30],
-    ["Faïence Bleu Majorelle", "Faïence", "30 × 60 cm", "Brillant", "faience-bleue", 145, 1.44, 8, "Bleu Majorelle", "Pâte blanche", "Atlas", "Médina", "f-atlas", 45],
-    ["Faïence Bleu Indigo", "Faïence", "30 × 30 cm", "Brillant", "faience-bleue", 119, 1.08, 12, "Bleu indigo", "Pâte blanche", "Atlas", "Médina", "f-atlas", 40],
-    ["Zellige Émeraude Artisanal", "Mosaïque", "10 × 10 cm", "Brillant", "zellige-vert", 690, 0.5, 50, "Vert émeraude", "Terre cuite émaillée", "Zellige de Fès", "Tradition", "f-zellige", 20],
-    ["Mosaïque Hexagonale Perle", "Mosaïque", "30 × 30 cm", "Mat", "mosaique-hexagone", 310, 0.9, 10, "Blanc et gris", "Porcelaine", "Ibérica", "Hexa", "f-iberica", 25],
-    ["Kit profilés aluminium", "Accessoires", "Barre 2,50 m", "Structuré", "accessoires", 0, 0, 25, "Aluminium brossé", "Aluminium", "Pose Pro", "Finition", "f-pro", 15],
-    ["Joint époxy 5 kg", "Accessoires", "Seau 5 kg", "Mat", "accessoires", 0, 0, 4, "Gris ciment", "Résine époxy", "Pose Pro", "Finition", "f-pro", 20],
+    [
+      "Calacatta Oro Poli",
+      "Grès cérame",
+      "60 × 120 cm",
+      "Poli",
+      "marbre-blanc",
+      289,
+      1.44,
+      2,
+      "Blanc veiné or",
+      "Grès cérame rectifié",
+      "Toscana",
+      "Marmi",
+      "f-toscana",
+      40,
+    ],
+    [
+      "Statuario Grand Format",
+      "Grès cérame",
+      "120 × 120 cm",
+      "Poli",
+      "marbre-blanc",
+      420,
+      1.44,
+      1,
+      "Blanc statuaire",
+      "Grès cérame rectifié",
+      "Toscana",
+      "Marmi XL",
+      "f-toscana",
+      30,
+    ],
+    [
+      "Nero Marquina",
+      "Marbre",
+      "60 × 60 cm",
+      "Poli",
+      "marbre-noir",
+      650,
+      1.08,
+      3,
+      "Noir veiné blanc",
+      "Marbre naturel",
+      "Ibérica",
+      "Piedra Noble",
+      "f-iberica",
+      25,
+    ],
+    [
+      "Carrare Blanc Naturel",
+      "Marbre",
+      "30 × 60 cm",
+      "Poli",
+      "marbre-blanc",
+      540,
+      1.08,
+      6,
+      "Blanc gris",
+      "Marbre naturel",
+      "Toscana",
+      "Classici",
+      "f-toscana",
+      25,
+    ],
+    [
+      "Béton Urbain Anthracite",
+      "Carrelage intérieur",
+      "60 × 60 cm",
+      "Mat",
+      "beton-anthracite",
+      165,
+      1.44,
+      4,
+      "Anthracite",
+      "Grès émaillé",
+      "Atlas",
+      "Urbain",
+      "f-atlas",
+      60,
+    ],
+    [
+      "Béton Urbain Anthracite XL",
+      "Grès cérame",
+      "80 × 80 cm",
+      "Mat",
+      "beton-anthracite",
+      215,
+      1.28,
+      2,
+      "Anthracite",
+      "Grès cérame pleine masse",
+      "Ibérica",
+      "Urbain",
+      "f-iberica",
+      40,
+    ],
+    [
+      "Chêne Naturel Parquet",
+      "Carrelage intérieur",
+      "20 × 120 cm",
+      "Structuré",
+      "bois-chene",
+      189,
+      1.44,
+      6,
+      "Chêne miel",
+      "Grès cérame",
+      "Ibérica",
+      "Bosque",
+      "f-iberica",
+      50,
+    ],
+    [
+      "Travertin Romain",
+      "Carrelage intérieur",
+      "60 × 60 cm",
+      "Mat",
+      "travertin-beige",
+      175,
+      1.44,
+      4,
+      "Beige",
+      "Grès émaillé",
+      "Atlas",
+      "Pietra",
+      "f-atlas",
+      50,
+    ],
+    [
+      "Travertin Terrasse Antidérapant",
+      "Carrelage extérieur",
+      "60 × 60 cm",
+      "Antidérapant",
+      "travertin-beige",
+      195,
+      1.44,
+      4,
+      "Beige sable",
+      "Grès cérame R11",
+      "Atlas",
+      "Pietra Outdoor",
+      "f-atlas",
+      40,
+    ],
+    [
+      "Pierre Grise Terrasse",
+      "Carrelage extérieur",
+      "45 × 45 cm",
+      "Antidérapant",
+      "exterieur-gris",
+      129,
+      1.62,
+      8,
+      "Gris perle",
+      "Grès cérame R11",
+      "Atlas",
+      "Roca",
+      "f-atlas",
+      60,
+    ],
+    [
+      "Pierre Grise Plage Piscine",
+      "Carrelage extérieur",
+      "30 × 30 cm",
+      "Antidérapant",
+      "exterieur-gris",
+      145,
+      1.08,
+      12,
+      "Gris clair",
+      "Grès cérame R12",
+      "Ibérica",
+      "Roca",
+      "f-iberica",
+      40,
+    ],
+    [
+      "Terrazzo Sable",
+      "Grès cérame",
+      "60 × 60 cm",
+      "Mat",
+      "terrazzo-beige",
+      235,
+      1.44,
+      4,
+      "Sable multicolore",
+      "Grès cérame",
+      "Toscana",
+      "Venezia",
+      "f-toscana",
+      35,
+    ],
+    [
+      "Terrazzo Sable Poli",
+      "Grès cérame",
+      "80 × 80 cm",
+      "Poli",
+      "terrazzo-beige",
+      265,
+      1.28,
+      2,
+      "Sable multicolore",
+      "Grès cérame",
+      "Toscana",
+      "Venezia",
+      "f-toscana",
+      30,
+    ],
+    [
+      "Faïence Bleu Majorelle",
+      "Faïence",
+      "30 × 60 cm",
+      "Brillant",
+      "faience-bleue",
+      145,
+      1.44,
+      8,
+      "Bleu Majorelle",
+      "Pâte blanche",
+      "Atlas",
+      "Médina",
+      "f-atlas",
+      45,
+    ],
+    [
+      "Faïence Bleu Indigo",
+      "Faïence",
+      "30 × 30 cm",
+      "Brillant",
+      "faience-bleue",
+      119,
+      1.08,
+      12,
+      "Bleu indigo",
+      "Pâte blanche",
+      "Atlas",
+      "Médina",
+      "f-atlas",
+      40,
+    ],
+    [
+      "Zellige Émeraude Artisanal",
+      "Mosaïque",
+      "10 × 10 cm",
+      "Brillant",
+      "zellige-vert",
+      690,
+      0.5,
+      50,
+      "Vert émeraude",
+      "Terre cuite émaillée",
+      "Zellige de Fès",
+      "Tradition",
+      "f-zellige",
+      20,
+    ],
+    [
+      "Mosaïque Hexagonale Perle",
+      "Mosaïque",
+      "30 × 30 cm",
+      "Mat",
+      "mosaique-hexagone",
+      310,
+      0.9,
+      10,
+      "Blanc et gris",
+      "Porcelaine",
+      "Ibérica",
+      "Hexa",
+      "f-iberica",
+      25,
+    ],
+    [
+      "Kit profilés aluminium",
+      "Accessoires",
+      "Barre 2,50 m",
+      "Structuré",
+      "accessoires",
+      0,
+      0,
+      25,
+      "Aluminium brossé",
+      "Aluminium",
+      "Pose Pro",
+      "Finition",
+      "f-pro",
+      15,
+    ],
+    [
+      "Joint époxy 5 kg",
+      "Accessoires",
+      "Seau 5 kg",
+      "Mat",
+      "accessoires",
+      0,
+      0,
+      4,
+      "Gris ciment",
+      "Résine époxy",
+      "Pose Pro",
+      "Finition",
+      "f-pro",
+      20,
+    ],
   ];
-  const accessoirePrix: Record<string, number> = { "Kit profilés aluminium": 1450, "Joint époxy 5 kg": 1280 };
+  const accessoirePrix: Record<string, number> = {
+    "Kit profilés aluminium": 1450,
+    "Joint époxy 5 kg": 1280,
+  };
   const products: Product[] = defs.map((d, i) => {
-    const [nom, categorie, dimension, finition, image, prixM2, m2, pcs, couleur, matiere, marque, collection, fournisseurId, seuilMin] = d;
+    const [
+      nom,
+      categorie,
+      dimension,
+      finition,
+      image,
+      prixM2,
+      m2,
+      pcs,
+      couleur,
+      matiere,
+      marque,
+      collection,
+      fournisseurId,
+      seuilMin,
+    ] = d;
     const prixCarton = categorie === "Accessoires" ? accessoirePrix[nom] : round2(prixM2 * m2);
     return {
       id: `p-${i + 1}`,
@@ -171,20 +544,44 @@ export function createSeed(now = new Date()): ErpData {
   /* ---------- Clients ---------- */
   type CDef = [string, Client["type"], string, string, string];
   const cdefs: CDef[] = [
-    ["Résidences Al Manar SARL", "Promoteur immobilier", "Casablanca", "Bd Ghandi, Maârif", "u-youssef"],
-    ["Atelier d'architecture Lamrani", "Architecte", "Rabat", "Avenue Mohammed VI, Souissi", "u-imane"],
+    [
+      "Résidences Al Manar SARL",
+      "Promoteur immobilier",
+      "Casablanca",
+      "Bd Ghandi, Maârif",
+      "u-youssef",
+    ],
+    [
+      "Atelier d'architecture Lamrani",
+      "Architecte",
+      "Rabat",
+      "Avenue Mohammed VI, Souissi",
+      "u-imane",
+    ],
     ["Hôtel Riad Zitoun", "Entreprise", "Marrakech", "Derb Zitoun, Médina", "u-karim"],
     ["Bâtiment Moderne du Souss", "Entrepreneur", "Agadir", "Quartier industriel Anza", "u-karim"],
     ["Mohamed Alaoui", "Particulier", "Témara", "Hay Al Fath, Témara", "u-imane"],
     ["Comptoir Céramique de Fès", "Revendeur", "Fès", "Route d'Imouzzer", "u-karim"],
-    ["Groupe Immobilier Nour", "Promoteur immobilier", "Tanger", "Boulevard Mohammed V", "u-youssef"],
+    [
+      "Groupe Immobilier Nour",
+      "Promoteur immobilier",
+      "Tanger",
+      "Boulevard Mohammed V",
+      "u-youssef",
+    ],
     ["Salma Berrada", "Particulier", "Casablanca", "Californie, rue des Orchidées", "u-youssef"],
     ["Studio Design Benkirane", "Architecte", "Casablanca", "Rue Ibnou Majid, Racine", "u-youssef"],
     ["Travaux Publics Chraibi", "Entrepreneur", "Salé", "Zone Technopolis", "u-imane"],
     ["Clinique Les Orangers", "Entreprise", "Rabat", "Agdal, avenue de France", "u-imane"],
     ["Rachid El Fassi", "Particulier", "Fès", "Route d'Ain Chkef", "u-karim"],
     ["Dépôt Carrelage Atlantique", "Revendeur", "Salé", "Hay Karima", "u-imane"],
-    ["Villas Palmeraie Prestige", "Promoteur immobilier", "Marrakech", "Route de Fès, Palmeraie", "u-karim"],
+    [
+      "Villas Palmeraie Prestige",
+      "Promoteur immobilier",
+      "Marrakech",
+      "Route de Fès, Palmeraie",
+      "u-karim",
+    ],
     ["Construction Idrissi & Fils", "Entrepreneur", "Casablanca", "Sidi Maârouf", "u-youssef"],
     ["Leila Bennis", "Particulier", "Tanger", "Malabata", "u-youssef"],
   ];
@@ -208,7 +605,10 @@ export function createSeed(now = new Date()): ErpData {
       telephone: `+212 6 ${ri(10, 79)} ${ri(10, 99)} ${ri(10, 99)} ${ri(10, 99)}`,
       email: type === "Particulier" ? `${slug}@gmail.com` : `contact@${slug.replace(".", "-")}.ma`,
       dateCreation: daysAgo(i < 13 ? 380 - i * 9 : 20 - (i - 13) * 6),
-      ice: type === "Particulier" ? undefined : String(ri(100000, 999999)) + String(ri(100000000, 999999999)),
+      ice:
+        type === "Particulier"
+          ? undefined
+          : String(ri(100000, 999999)) + String(ri(100000000, 999999999)),
     };
   });
 
@@ -221,7 +621,8 @@ export function createSeed(now = new Date()): ErpData {
   let seqCmd = 0;
   let seqFac = 0;
   let seqPai = 0;
-  const num = (prefix: string, iso: string, seq: number) => `${prefix}-${new Date(iso).getFullYear()}-${String(seq).padStart(4, "0")}`;
+  const num = (prefix: string, iso: string, seq: number) =>
+    `${prefix}-${new Date(iso).getFullYear()}-${String(seq).padStart(4, "0")}`;
 
   const makeLignes = (clientType: Client["type"]): LigneDoc[] => {
     const n = ri(1, clientType === "Particulier" ? 2 : 3);
@@ -231,7 +632,10 @@ export function createSeed(now = new Date()): ErpData {
       let p = pick(tiles);
       while (used.has(p.id)) p = pick(tiles);
       used.add(p.id);
-      const big = clientType === "Promoteur immobilier" || clientType === "Entrepreneur" || clientType === "Revendeur";
+      const big =
+        clientType === "Promoteur immobilier" ||
+        clientType === "Entrepreneur" ||
+        clientType === "Revendeur";
       const unite: Unite = rnd() < 0.7 ? "carton" : "m2";
       const cartons = big ? ri(30, 110) : ri(12, 45);
       const quantite = unite === "carton" ? cartons : round2(cartons * p.m2ParCarton);
@@ -247,7 +651,15 @@ export function createSeed(now = new Date()): ErpData {
     }
     if (rnd() < 0.3) {
       const a = pick(accessoiresP);
-      lignes.push({ id: `l-acc-${ri(1000, 9999)}`, productId: a.id, designation: a.nom, unite: "carton", quantite: ri(1, 4), prixUnitaire: a.prixCarton, remise: 0 });
+      lignes.push({
+        id: `l-acc-${ri(1000, 9999)}`,
+        productId: a.id,
+        designation: a.nom,
+        unite: "carton",
+        quantite: ri(1, 4),
+        prixUnitaire: a.prixCarton,
+        remise: 0,
+      });
     }
     return lignes;
   };
@@ -274,10 +686,14 @@ export function createSeed(now = new Date()): ErpData {
   const startDays = 365;
   const orderDays: number[] = [];
   for (let m = 11; m >= 0; m--) {
-    const count = m === 0 ? Math.max(4, Math.round((dayOfMonth / 30) * 12) + 2) : Math.round(8 + (11 - m) * 0.35 + ri(0, 2));
+    const count =
+      m === 0
+        ? Math.max(4, Math.round((dayOfMonth / 30) * 12) + 2)
+        : Math.round(8 + (11 - m) * 0.35 + ri(0, 2));
     for (let k = 0; k < count; k++) {
       const base = new Date(now.getFullYear(), now.getMonth() - m, 1);
-      const maxDay = m === 0 ? dayOfMonth : new Date(base.getFullYear(), base.getMonth() + 1, 0).getDate();
+      const maxDay =
+        m === 0 ? dayOfMonth : new Date(base.getFullYear(), base.getMonth() + 1, 0).getDate();
       const d = new Date(base.getFullYear(), base.getMonth(), ri(1, maxDay));
       const diff = Math.round((now.getTime() - d.getTime()) / 86400000);
       if (diff >= 0 && diff <= startDays) orderDays.push(diff);
@@ -287,13 +703,18 @@ export function createSeed(now = new Date()): ErpData {
   orderDays.sort((a, b) => b - a);
 
   for (const ago of orderDays) {
-    const pool = clients.filter((c) => new Date(c.dateCreation).getTime() < now.getTime() - ago * 86400000);
+    const pool = clients.filter(
+      (c) => new Date(c.dateCreation).getTime() < now.getTime() - ago * 86400000,
+    );
     const client = pick(pool.length ? pool : clients);
     const date = daysAgo(ago);
     let statut: CommandeStatut = "livree";
-    if (ago <= 2) statut = pick(["en_attente", "confirmee", "confirmee", "en_attente"] as CommandeStatut[]);
-    else if (ago <= 7) statut = pick(["confirmee", "en_preparation", "prete", "livree"] as CommandeStatut[]);
-    else if (ago <= 14) statut = pick(["en_preparation", "prete", "livree", "livree"] as CommandeStatut[]);
+    if (ago <= 2)
+      statut = pick(["en_attente", "confirmee", "confirmee", "en_attente"] as CommandeStatut[]);
+    else if (ago <= 7)
+      statut = pick(["confirmee", "en_preparation", "prete", "livree"] as CommandeStatut[]);
+    else if (ago <= 14)
+      statut = pick(["en_preparation", "prete", "livree", "livree"] as CommandeStatut[]);
     else if (rnd() < 0.05) statut = "annulee";
     seqCmd++;
     const c: Commande = {
@@ -310,7 +731,8 @@ export function createSeed(now = new Date()): ErpData {
       notes: "",
       depotId: rnd() < 0.75 ? "d-casa" : "d-temara",
       stockDeduit: statut === "livree",
-      dateConfirmation: statut === "en_attente" || statut === "annulee" ? undefined : addDays(date, 0),
+      dateConfirmation:
+        statut === "en_attente" || statut === "annulee" ? undefined : addDays(date, 0),
     };
     commandes.push(c);
 
@@ -332,7 +754,8 @@ export function createSeed(now = new Date()): ErpData {
     }
 
     if (statut === "livree" || (statut === "prete" && rnd() < 0.5)) {
-      const livraison = statut === "livree" ? (ago > 10 ? c.dateLivraison : daysAgo(Math.max(0, ago - 2))) : date;
+      const livraison =
+        statut === "livree" ? (ago > 10 ? c.dateLivraison : daysAgo(Math.max(0, ago - 2))) : date;
       if (statut === "livree") {
         c.dateLivraison = livraison;
         const ct = cartonsCommande({ products }, c);
@@ -376,7 +799,8 @@ export function createSeed(now = new Date()): ErpData {
         else addPaiement(f, ttc * 0.5, addDays(fdate, ri(2, 20)));
       } else if (fAgo > 15) {
         if (r < 0.55) addPaiement(f, ttc, addDays(fdate, ri(1, Math.min(14, fAgo))));
-        else if (r < 0.85) addPaiement(f, ttc * pick([0.3, 0.4, 0.5]), addDays(fdate, ri(1, Math.min(10, fAgo))));
+        else if (r < 0.85)
+          addPaiement(f, ttc * pick([0.3, 0.4, 0.5]), addDays(fdate, ri(1, Math.min(10, fAgo))));
       } else if (r < 0.35) {
         addPaiement(f, ttc * pick([0.3, 0.5]), addDays(fdate, Math.min(1, fAgo)));
       }
@@ -385,7 +809,23 @@ export function createSeed(now = new Date()): ErpData {
 
   /* ---------- Devis ---------- */
   const devis: Devis[] = [];
-  const devisStatuts: DevisStatut[] = ["brouillon", "envoye", "envoye", "envoye", "accepte", "accepte", "accepte", "refuse", "expire", "envoye", "brouillon", "accepte", "envoye", "refuse", "envoye"];
+  const devisStatuts: DevisStatut[] = [
+    "brouillon",
+    "envoye",
+    "envoye",
+    "envoye",
+    "accepte",
+    "accepte",
+    "accepte",
+    "refuse",
+    "expire",
+    "envoye",
+    "brouillon",
+    "accepte",
+    "envoye",
+    "refuse",
+    "envoye",
+  ];
   devisStatuts.forEach((statut, i) => {
     const ago = statut === "expire" ? 48 : statut === "brouillon" ? ri(0, 3) : ri(2, 40);
     const date = daysAgo(ago);
@@ -394,7 +834,12 @@ export function createSeed(now = new Date()): ErpData {
     let commercialId: string;
     let commandeId: string | undefined;
     if (statut === "accepte") {
-      const c = commandes.filter((x) => !x.devisId && Math.round((now.getTime() - new Date(x.date).getTime()) / 86400000) < 40 && x.statut !== "annulee")[i % 6];
+      const c = commandes.filter(
+        (x) =>
+          !x.devisId &&
+          Math.round((now.getTime() - new Date(x.date).getTime()) / 86400000) < 40 &&
+          x.statut !== "annulee",
+      )[i % 6];
       if (c) {
         lignes = c.lignes;
         clientId = c.clientId;
@@ -417,7 +862,9 @@ export function createSeed(now = new Date()): ErpData {
       numero: num("DEV", date, i + 1),
       clientId,
       commercialId,
-      date: commandeId ? addDays(commandes.find((c) => c.id === commandeId)!.date, -ri(2, 6)) : date,
+      date: commandeId
+        ? addDays(commandes.find((c) => c.id === commandeId)!.date, -ri(2, 6))
+        : date,
       validite: addDays(date, 30),
       statut,
       lignes,
@@ -459,7 +906,10 @@ export function createSeed(now = new Date()): ErpData {
     if (total <= 0) return;
     const casa = Math.round(total * 0.7);
     const temara = total - casa;
-    const parts: [string, number][] = [["d-casa", casa], ["d-temara", temara]];
+    const parts: [string, number][] = [
+      ["d-casa", casa],
+      ["d-temara", temara],
+    ];
     parts.forEach(([depotId, q], k) => {
       if (q <= 0) return;
       const entree = daysAgo(ri(15, 120));
@@ -525,24 +975,128 @@ export function createSeed(now = new Date()): ErpData {
   /* ---------- Notifications & activités ---------- */
   const recentCmd = [...commandes].reverse();
   const notifications: Notification[] = [
-    { id: "n-1", date: daysAgo(0, now.getHours(), Math.max(0, now.getMinutes() - 12)), titre: "Nouvelle commande créée", message: `Commande ${recentCmd[0].numero} enregistrée.`, niveau: "info", lu: false, cible: "admin", lien: `/commandes/${recentCmd[0].id}` },
-    { id: "n-2", date: daysAgo(0, Math.max(8, now.getHours() - 2)), titre: "Produit en rupture", message: "Statuario Grand Format 120 × 120 cm n'est plus disponible.", niveau: "critique", lu: false, cible: "tous", lien: "/stocks" },
-    { id: "n-3", date: daysAgo(1), titre: "Stock faible", message: "Nero Marquina 60 × 60 cm est passé sous le seuil minimal.", niveau: "alerte", lu: false, cible: "admin", lien: "/stocks" },
-    { id: "n-4", date: daysAgo(1), titre: "Devis accepté", message: `Le devis ${devis.find((d) => d.statut === "accepte")?.numero} a été accepté par le client.`, niveau: "succes", lu: false, cible: "u-youssef", lien: "/devis" },
-    { id: "n-5", date: daysAgo(2), titre: "Paiement reçu", message: "Un règlement par virement a été enregistré.", niveau: "succes", lu: true, cible: "admin", lien: "/paiements" },
-    { id: "n-6", date: daysAgo(3), titre: "Facture impayée", message: "Plusieurs factures arrivent à échéance cette semaine.", niveau: "alerte", lu: false, cible: "admin", lien: "/factures" },
-    { id: "n-7", date: daysAgo(4), titre: "Nouveau client ajouté", message: `${clients[15].nom} a été ajouté au portefeuille.`, niveau: "info", lu: true, cible: "u-youssef", lien: `/clients/${clients[15].id}` },
-    { id: "n-8", date: daysAgo(5), titre: "Objectif commercial atteint", message: "Imane Tazi a atteint 100 % de son objectif du mois précédent.", niveau: "succes", lu: true, cible: "admin" },
-    { id: "n-9", date: daysAgo(2), titre: "Rappel de relance", message: "Pensez à relancer vos devis envoyés depuis plus de 7 jours.", niveau: "info", lu: false, cible: "u-youssef", lien: "/devis" },
-    { id: "n-10", date: daysAgo(6), titre: "Stock faible", message: "Mosaïque Hexagonale Perle est passée sous le seuil minimal.", niveau: "alerte", lu: true, cible: "tous", lien: "/stocks" },
+    {
+      id: "n-1",
+      date: daysAgo(0, now.getHours(), Math.max(0, now.getMinutes() - 12)),
+      titre: "Nouvelle commande créée",
+      message: `Commande ${recentCmd[0].numero} enregistrée.`,
+      niveau: "info",
+      lu: false,
+      cible: "admin",
+      lien: `/commandes/${recentCmd[0].id}`,
+    },
+    {
+      id: "n-2",
+      date: daysAgo(0, Math.max(8, now.getHours() - 2)),
+      titre: "Produit en rupture",
+      message: "Statuario Grand Format 120 × 120 cm n'est plus disponible.",
+      niveau: "critique",
+      lu: false,
+      cible: "tous",
+      lien: "/stocks",
+    },
+    {
+      id: "n-3",
+      date: daysAgo(1),
+      titre: "Stock faible",
+      message: "Nero Marquina 60 × 60 cm est passé sous le seuil minimal.",
+      niveau: "alerte",
+      lu: false,
+      cible: "admin",
+      lien: "/stocks",
+    },
+    {
+      id: "n-4",
+      date: daysAgo(1),
+      titre: "Devis accepté",
+      message: `Le devis ${devis.find((d) => d.statut === "accepte")?.numero} a été accepté par le client.`,
+      niveau: "succes",
+      lu: false,
+      cible: "u-youssef",
+      lien: "/devis",
+    },
+    {
+      id: "n-5",
+      date: daysAgo(2),
+      titre: "Paiement reçu",
+      message: "Un règlement par virement a été enregistré.",
+      niveau: "succes",
+      lu: true,
+      cible: "admin",
+      lien: "/paiements",
+    },
+    {
+      id: "n-6",
+      date: daysAgo(3),
+      titre: "Facture impayée",
+      message: "Plusieurs factures arrivent à échéance cette semaine.",
+      niveau: "alerte",
+      lu: false,
+      cible: "admin",
+      lien: "/factures",
+    },
+    {
+      id: "n-7",
+      date: daysAgo(4),
+      titre: "Nouveau client ajouté",
+      message: `${clients[15].nom} a été ajouté au portefeuille.`,
+      niveau: "info",
+      lu: true,
+      cible: "u-youssef",
+      lien: `/clients/${clients[15].id}`,
+    },
+    {
+      id: "n-8",
+      date: daysAgo(5),
+      titre: "Objectif commercial atteint",
+      message: "Imane Tazi a atteint 100 % de son objectif du mois précédent.",
+      niveau: "succes",
+      lu: true,
+      cible: "admin",
+    },
+    {
+      id: "n-9",
+      date: daysAgo(2),
+      titre: "Rappel de relance",
+      message: "Pensez à relancer vos devis envoyés depuis plus de 7 jours.",
+      niveau: "info",
+      lu: false,
+      cible: "u-youssef",
+      lien: "/devis",
+    },
+    {
+      id: "n-10",
+      date: daysAgo(6),
+      titre: "Stock faible",
+      message: "Mosaïque Hexagonale Perle est passée sous le seuil minimal.",
+      niveau: "alerte",
+      lu: true,
+      cible: "tous",
+      lien: "/stocks",
+    },
   ];
 
   const activites: Activite[] = [];
   const pushAct = (date: string, userId: string, action: string, description: string) =>
     activites.push({ id: `a-${activites.length + 1}`, date, userId, action, description });
-  recentCmd.slice(0, 10).forEach((c) => pushAct(c.date, c.commercialId, "Commande", `Création de la commande ${c.numero}`));
-  devis.slice(-6).forEach((d) => pushAct(d.date, d.commercialId, "Devis", `Création du devis ${d.numero}`));
-  paiements.slice(-6).forEach((p) => pushAct(p.date, "u-admin", "Paiement", `Encaissement de ${round2(p.montant).toLocaleString("fr-FR")} DH`));
+  recentCmd
+    .slice(0, 10)
+    .forEach((c) =>
+      pushAct(c.date, c.commercialId, "Commande", `Création de la commande ${c.numero}`),
+    );
+  devis
+    .slice(-6)
+    .forEach((d) => pushAct(d.date, d.commercialId, "Devis", `Création du devis ${d.numero}`));
+  paiements
+    .slice(-6)
+    .forEach((p) =>
+      pushAct(
+        p.date,
+        "u-admin",
+        "Paiement",
+        `Encaissement de ${round2(p.montant).toLocaleString("fr-FR")} DH`,
+      ),
+    );
   pushAct(daysAgo(4), "u-youssef", "Client", `Ajout du client ${clients[15].nom}`);
   pushAct(daysAgo(9), "u-admin", "Stock", "Transfert de 40 cartons Casablanca → Témara");
   activites.sort((a, b) => b.date.localeCompare(a.date));
@@ -582,7 +1136,8 @@ export function createSeed(now = new Date()): ErpData {
       devise: "MAD",
       tauxTVA: settingsTVA,
       remiseMax: 15,
-      conditionsPaiement: "Paiement à 30 jours date de facture. 30 % d'acompte à la commande pour les particuliers.",
+      conditionsPaiement:
+        "Paiement à 30 jours date de facture. 30 % d'acompte à la commande pour les particuliers.",
       validiteDevisJours: 30,
       prefixes: { devis: "DEV", commande: "CMD", facture: "FAC", paiement: "PAI" },
       compteurs: { devis: devis.length, commande: seqCmd, facture: seqFac, paiement: seqPai },

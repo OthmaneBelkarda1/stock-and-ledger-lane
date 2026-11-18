@@ -19,11 +19,21 @@ import { useSession } from "@/lib/erp/session";
 import { useErp } from "@/lib/erp/store";
 import { ConfirmDialog } from "./confirm-dialog";
 
-export function UserAvatar({ nom, avatar, className }: { nom: string; avatar?: string; className?: string }) {
+export function UserAvatar({
+  nom,
+  avatar,
+  className,
+}: {
+  nom: string;
+  avatar?: string;
+  className?: string;
+}) {
   return (
     <Avatar className={className}>
       {avatar && <AvatarImage src={avatar} alt={nom} />}
-      <AvatarFallback className="bg-accent text-xs font-semibold text-accent-foreground">{initials(nom)}</AvatarFallback>
+      <AvatarFallback className="bg-accent text-xs font-semibold text-accent-foreground">
+        {initials(nom)}
+      </AvatarFallback>
     </Avatar>
   );
 }
@@ -64,7 +74,9 @@ export function UserMenu() {
             <UserRound /> Mon historique d'activité
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">Démonstration</DropdownMenuLabel>
+          <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+            Démonstration
+          </DropdownMenuLabel>
           {user.role === "admin" ? (
             <DropdownMenuItem onSelect={() => switchTo("u-youssef", "commercial")}>
               <ArrowLeftRight /> Basculer vers l'espace commercial

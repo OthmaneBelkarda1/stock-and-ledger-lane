@@ -17,10 +17,22 @@ export function useScoped() {
   const user = useCurrentUser();
   return useMemo(() => {
     const isAdmin = user.role === "admin";
-    if (isAdmin) return { data, user, isAdmin, clients: data.clients, devis: data.devis, commandes: data.commandes, factures: data.factures, paiements: data.paiements };
+    if (isAdmin)
+      return {
+        data,
+        user,
+        isAdmin,
+        clients: data.clients,
+        devis: data.devis,
+        commandes: data.commandes,
+        factures: data.factures,
+        paiements: data.paiements,
+      };
     const clients = data.clients.filter((c) => c.commercialId === user.id);
     const clientIds = new Set(clients.map((c) => c.id));
-    const factures = data.factures.filter((f) => f.commercialId === user.id || clientIds.has(f.clientId));
+    const factures = data.factures.filter(
+      (f) => f.commercialId === user.id || clientIds.has(f.clientId),
+    );
     const fIds = new Set(factures.map((f) => f.id));
     return {
       data,
@@ -39,7 +51,10 @@ export function useNotifications() {
   const notifications = useErp((s) => s.data.notifications);
   const user = useCurrentUser();
   return useMemo(() => {
-    const list = notifications.filter((n) => n.cible === "tous" || n.cible === user.id || (n.cible === "admin" && user.role === "admin"));
+    const list = notifications.filter(
+      (n) =>
+        n.cible === "tous" || n.cible === user.id || (n.cible === "admin" && user.role === "admin"),
+    );
     return { list, unread: list.filter((n) => !n.lu).length };
   }, [notifications, user]);
 }

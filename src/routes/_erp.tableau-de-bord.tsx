@@ -5,7 +5,10 @@ import { useCurrentUser } from "@/lib/erp/hooks";
 import { pageHead } from "@/lib/erp/head";
 
 export const Route = createFileRoute("/_erp/tableau-de-bord")({
-  head: pageHead("Tableau de bord", "Indicateurs clés, ventes, stocks et performances commerciales."),
+  head: pageHead(
+    "Tableau de bord",
+    "Indicateurs clés, ventes, stocks et performances commerciales.",
+  ),
   component: Page,
 });
 

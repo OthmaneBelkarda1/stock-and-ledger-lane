@@ -6,18 +6,30 @@ export const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 10
 /* ---------- Conversions céramique ---------- */
 
 /** Équivalent en cartons d'une quantité exprimée dans l'unité donnée. */
-export function toCartons(p: Pick<Product, "m2ParCarton" | "piecesParCarton">, unite: Unite, qte: number) {
+export function toCartons(
+  p: Pick<Product, "m2ParCarton" | "piecesParCarton">,
+  unite: Unite,
+  qte: number,
+) {
   if (unite === "carton") return qte;
   if (unite === "m2") return p.m2ParCarton > 0 ? qte / p.m2ParCarton : 0;
   return p.piecesParCarton > 0 ? qte / p.piecesParCarton : 0;
 }
 /** Cartons entiers nécessaires pour servir la quantité (arrondi supérieur). */
-export const cartonsNecessaires = (p: Pick<Product, "m2ParCarton" | "piecesParCarton">, unite: Unite, qte: number) =>
-  Math.ceil(round2(toCartons(p, unite, qte)) - 1e-9);
-export const cartonsToM2 = (p: Pick<Product, "m2ParCarton">, cartons: number) => round2(cartons * p.m2ParCarton);
-export const cartonsToPieces = (p: Pick<Product, "piecesParCarton">, cartons: number) => Math.round(cartons * p.piecesParCarton);
+export const cartonsNecessaires = (
+  p: Pick<Product, "m2ParCarton" | "piecesParCarton">,
+  unite: Unite,
+  qte: number,
+) => Math.ceil(round2(toCartons(p, unite, qte)) - 1e-9);
+export const cartonsToM2 = (p: Pick<Product, "m2ParCarton">, cartons: number) =>
+  round2(cartons * p.m2ParCarton);
+export const cartonsToPieces = (p: Pick<Product, "piecesParCarton">, cartons: number) =>
+  Math.round(cartons * p.piecesParCarton);
 
-export function prixUnitaire(p: Pick<Product, "prixM2" | "prixCarton" | "piecesParCarton">, unite: Unite) {
+export function prixUnitaire(
+  p: Pick<Product, "prixM2" | "prixCarton" | "piecesParCarton">,
+  unite: Unite,
+) {
   if (unite === "carton") return p.prixCarton;
   if (unite === "m2") return p.prixM2;
   return p.piecesParCarton > 0 ? round2(p.prixCarton / p.piecesParCarton) : 0;
@@ -25,7 +37,8 @@ export function prixUnitaire(p: Pick<Product, "prixM2" | "prixCarton" | "piecesP
 
 /* ---------- Montants des documents ---------- */
 
-export const ligneBrut = (l: Pick<LigneDoc, "quantite" | "prixUnitaire">) => l.quantite * l.prixUnitaire;
+export const ligneBrut = (l: Pick<LigneDoc, "quantite" | "prixUnitaire">) =>
+  l.quantite * l.prixUnitaire;
 export const ligneNet = (l: Pick<LigneDoc, "quantite" | "prixUnitaire" | "remise">) =>
   ligneBrut(l) * (1 - (l.remise || 0) / 100);
 
@@ -37,7 +50,11 @@ export interface Totaux {
   ttc: number;
 }
 
-export function totaux(doc: { lignes: LigneDoc[]; tauxTVA: number; remiseGlobale: number }): Totaux {
+export function totaux(doc: {
+  lignes: LigneDoc[];
+  tauxTVA: number;
+  remiseGlobale: number;
+}): Totaux {
   const sousTotal = doc.lignes.reduce((s, l) => s + ligneBrut(l), 0);
   const apresLignes = doc.lignes.reduce((s, l) => s + ligneNet(l), 0);
   const remiseGlobale = apresLignes * ((doc.remiseGlobale || 0) / 100);
@@ -63,7 +80,11 @@ export function stockPhysique(data: Pick<ErpData, "lots">, productId: string, de
     .reduce((s, l) => s + l.cartons, 0);
 }
 
-export function cartonsCommande(data: Pick<ErpData, "products">, c: Pick<Commande, "lignes">, productId?: string) {
+export function cartonsCommande(
+  data: Pick<ErpData, "products">,
+  c: Pick<Commande, "lignes">,
+  productId?: string,
+) {
   const res: Record<string, number> = {};
   for (const l of c.lignes) {
     if (productId && l.productId !== productId) continue;
@@ -81,7 +102,10 @@ export function stockReserve(data: Pick<ErpData, "commandes" | "products">, prod
     .reduce((s, c) => s + (cartonsCommande(data, c, productId)[productId] || 0), 0);
 }
 
-export function stockDisponible(data: Pick<ErpData, "lots" | "commandes" | "products">, productId: string) {
+export function stockDisponible(
+  data: Pick<ErpData, "lots" | "commandes" | "products">,
+  productId: string,
+) {
   return stockPhysique(data, productId) - stockReserve(data, productId);
 }
 
@@ -95,7 +119,9 @@ export function etatStock(disponible: number, seuil: number): EtatStock {
 /* ---------- Factures & paiements ---------- */
 
 export function montantPaye(data: Pick<ErpData, "paiements">, factureId: string) {
-  return round2(data.paiements.filter((p) => p.factureId === factureId).reduce((s, p) => s + p.montant, 0));
+  return round2(
+    data.paiements.filter((p) => p.factureId === factureId).reduce((s, p) => s + p.montant, 0),
+  );
 }
 
 export function soldeFacture(data: Pick<ErpData, "paiements">, f: Facture) {
@@ -119,7 +145,11 @@ export interface Plage {
   end: Date;
 }
 
-export function plagePeriode(periode: Periode, perso?: { from?: Date; to?: Date }, now = new Date()): Plage {
+export function plagePeriode(
+  periode: Periode,
+  perso?: { from?: Date; to?: Date },
+  now = new Date(),
+): Plage {
   const start = new Date(now);
   const end = new Date(now);
   end.setHours(23, 59, 59, 999);
@@ -152,7 +182,9 @@ export const dansPlage = (iso: string, p: Plage) => {
   return t >= p.start.getTime() && t <= p.end.getTime();
 };
 
-export const evolution = (cur: number, prev: number) => (prev === 0 ? (cur > 0 ? 100 : 0) : ((cur - prev) / prev) * 100);
+export const evolution = (cur: number, prev: number) =>
+  prev === 0 ? (cur > 0 ? 100 : 0) : ((cur - prev) / prev) * 100;
 
 export const estVente = (c: Commande) => STATUTS_VENTE.includes(c.statut);
-export const caCommandes = (cmds: Commande[]) => round2(cmds.filter(estVente).reduce((s, c) => s + totaux(c).ttc, 0));
+export const caCommandes = (cmds: Commande[]) =>
+  round2(cmds.filter(estVente).reduce((s, c) => s + totaux(c).ttc, 0));

@@ -32,7 +32,12 @@ export function NotificationsPopover() {
             <p className="text-sm font-semibold">Notifications</p>
             <p className="text-xs text-muted-foreground">{unread} non lue(s)</p>
           </div>
-          <Button variant="ghost" size="sm" disabled={!unread} onClick={() => markAllRead(list.map((n) => n.id))}>
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled={!unread}
+            onClick={() => markAllRead(list.map((n) => n.id))}
+          >
             <CheckCheck /> Tout marquer comme lu
           </Button>
         </div>
@@ -46,7 +51,10 @@ export function NotificationsPopover() {
                     markRead(n.id);
                     if (n.lien) navigate({ to: n.lien });
                   }}
-                  className={cn("flex w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-accent/40", !n.lu && "bg-primary-soft/40")}
+                  className={cn(
+                    "flex w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-accent/40",
+                    !n.lu && "bg-primary-soft/40",
+                  )}
                 >
                   <NotifIcon niveau={n.niveau} />
                   <div className="min-w-0 flex-1">

@@ -11,8 +11,30 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ErpRouteImport } from './routes/_erp'
+import { Route as ErpActivitesRouteImport } from './routes/_erp.activites'
+import { Route as ErpNotificationsRouteImport } from './routes/_erp.notifications'
+import { Route as ErpParametresRouteImport } from './routes/_erp.parametres'
+import { Route as ErpPerformancesRouteImport } from './routes/_erp.performances'
 import { Route as ErpProduitsRouteImport } from './routes/_erp.produits'
+import { Route as ErpRapportsRouteImport } from './routes/_erp.rapports'
+import { Route as ErpStocksRouteImport } from './routes/_erp.stocks'
 import { Route as ErpTableauDeBordRouteImport } from './routes/_erp.tableau-de-bord'
+import { Route as ErpClientsIndexRouteImport } from './routes/_erp.clients.index'
+import { Route as ErpClientsIdRouteImport } from './routes/_erp.clients.$id'
+import { Route as ErpCommandesIndexRouteImport } from './routes/_erp.commandes.index'
+import { Route as ErpCommandesNouvelleRouteImport } from './routes/_erp.commandes.nouvelle'
+import { Route as ErpCommerciauxIndexRouteImport } from './routes/_erp.commerciaux.index'
+import { Route as ErpCommerciauxIdRouteImport } from './routes/_erp.commerciaux.$id'
+import { Route as ErpDevisIndexRouteImport } from './routes/_erp.devis.index'
+import { Route as ErpDevisNouveauRouteImport } from './routes/_erp.devis.nouveau'
+import { Route as ErpFacturesIndexRouteImport } from './routes/_erp.factures.index'
+import { Route as ErpFacturesIdRouteImport } from './routes/_erp.factures.$id'
+import { Route as ErpFournisseursIndexRouteImport } from './routes/_erp.fournisseurs.index'
+import { Route as ErpPaiementsIndexRouteImport } from './routes/_erp.paiements.index'
+import { Route as ErpCommandesIdIndexRouteImport } from './routes/_erp.commandes.$id.index'
+import { Route as ErpCommandesIdModifierRouteImport } from './routes/_erp.commandes.$id.modifier'
+import { Route as ErpDevisIdIndexRouteImport } from './routes/_erp.devis.$id.index'
+import { Route as ErpDevisIdModifierRouteImport } from './routes/_erp.devis.$id.modifier'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,9 +45,39 @@ const ErpRoute = ErpRouteImport.update({
   id: '/_erp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErpActivitesRoute = ErpActivitesRouteImport.update({
+  id: '/activites',
+  path: '/activites',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpNotificationsRoute = ErpNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpParametresRoute = ErpParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpPerformancesRoute = ErpPerformancesRouteImport.update({
+  id: '/performances',
+  path: '/performances',
+  getParentRoute: () => ErpRoute,
+} as any)
 const ErpProduitsRoute = ErpProduitsRouteImport.update({
   id: '/produits',
   path: '/produits',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpRapportsRoute = ErpRapportsRouteImport.update({
+  id: '/rapports',
+  path: '/rapports',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpStocksRoute = ErpStocksRouteImport.update({
+  id: '/stocks',
+  path: '/stocks',
   getParentRoute: () => ErpRoute,
 } as any)
 const ErpTableauDeBordRoute = ErpTableauDeBordRouteImport.update({
@@ -33,30 +85,253 @@ const ErpTableauDeBordRoute = ErpTableauDeBordRouteImport.update({
   path: '/tableau-de-bord',
   getParentRoute: () => ErpRoute,
 } as any)
+const ErpClientsIndexRoute = ErpClientsIndexRouteImport.update({
+  id: '/clients/',
+  path: '/clients/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpClientsIdRoute = ErpClientsIdRouteImport.update({
+  id: '/clients/$id',
+  path: '/clients/$id',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommandesIndexRoute = ErpCommandesIndexRouteImport.update({
+  id: '/commandes/',
+  path: '/commandes/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommandesNouvelleRoute = ErpCommandesNouvelleRouteImport.update({
+  id: '/commandes/nouvelle',
+  path: '/commandes/nouvelle',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommerciauxIndexRoute = ErpCommerciauxIndexRouteImport.update({
+  id: '/commerciaux/',
+  path: '/commerciaux/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommerciauxIdRoute = ErpCommerciauxIdRouteImport.update({
+  id: '/commerciaux/$id',
+  path: '/commerciaux/$id',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpDevisIndexRoute = ErpDevisIndexRouteImport.update({
+  id: '/devis/',
+  path: '/devis/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpDevisNouveauRoute = ErpDevisNouveauRouteImport.update({
+  id: '/devis/nouveau',
+  path: '/devis/nouveau',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpFacturesIndexRoute = ErpFacturesIndexRouteImport.update({
+  id: '/factures/',
+  path: '/factures/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpFacturesIdRoute = ErpFacturesIdRouteImport.update({
+  id: '/factures/$id',
+  path: '/factures/$id',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpFournisseursIndexRoute = ErpFournisseursIndexRouteImport.update({
+  id: '/fournisseurs/',
+  path: '/fournisseurs/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpPaiementsIndexRoute = ErpPaiementsIndexRouteImport.update({
+  id: '/paiements/',
+  path: '/paiements/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommandesIdIndexRoute = ErpCommandesIdIndexRouteImport.update({
+  id: '/commandes/$id/',
+  path: '/commandes/$id/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpCommandesIdModifierRoute = ErpCommandesIdModifierRouteImport.update({
+  id: '/commandes/$id/modifier',
+  path: '/commandes/$id/modifier',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpDevisIdIndexRoute = ErpDevisIdIndexRouteImport.update({
+  id: '/devis/$id/',
+  path: '/devis/$id/',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpDevisIdModifierRoute = ErpDevisIdModifierRouteImport.update({
+  id: '/devis/$id/modifier',
+  path: '/devis/$id/modifier',
+  getParentRoute: () => ErpRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activites': typeof ErpActivitesRoute
+  '/notifications': typeof ErpNotificationsRoute
+  '/parametres': typeof ErpParametresRoute
+  '/performances': typeof ErpPerformancesRoute
   '/produits': typeof ErpProduitsRoute
+  '/rapports': typeof ErpRapportsRoute
+  '/stocks': typeof ErpStocksRoute
   '/tableau-de-bord': typeof ErpTableauDeBordRoute
+  '/clients/$id': typeof ErpClientsIdRoute
+  '/commandes/nouvelle': typeof ErpCommandesNouvelleRoute
+  '/commerciaux/$id': typeof ErpCommerciauxIdRoute
+  '/devis/nouveau': typeof ErpDevisNouveauRoute
+  '/factures/$id': typeof ErpFacturesIdRoute
+  '/clients/': typeof ErpClientsIndexRoute
+  '/commandes/': typeof ErpCommandesIndexRoute
+  '/commerciaux/': typeof ErpCommerciauxIndexRoute
+  '/devis/': typeof ErpDevisIndexRoute
+  '/factures/': typeof ErpFacturesIndexRoute
+  '/fournisseurs/': typeof ErpFournisseursIndexRoute
+  '/paiements/': typeof ErpPaiementsIndexRoute
+  '/commandes/$id/modifier': typeof ErpCommandesIdModifierRoute
+  '/devis/$id/modifier': typeof ErpDevisIdModifierRoute
+  '/commandes/$id/': typeof ErpCommandesIdIndexRoute
+  '/devis/$id/': typeof ErpDevisIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activites': typeof ErpActivitesRoute
+  '/notifications': typeof ErpNotificationsRoute
+  '/parametres': typeof ErpParametresRoute
+  '/performances': typeof ErpPerformancesRoute
   '/produits': typeof ErpProduitsRoute
+  '/rapports': typeof ErpRapportsRoute
+  '/stocks': typeof ErpStocksRoute
   '/tableau-de-bord': typeof ErpTableauDeBordRoute
+  '/clients/$id': typeof ErpClientsIdRoute
+  '/commandes/nouvelle': typeof ErpCommandesNouvelleRoute
+  '/commerciaux/$id': typeof ErpCommerciauxIdRoute
+  '/devis/nouveau': typeof ErpDevisNouveauRoute
+  '/factures/$id': typeof ErpFacturesIdRoute
+  '/clients': typeof ErpClientsIndexRoute
+  '/commandes': typeof ErpCommandesIndexRoute
+  '/commerciaux': typeof ErpCommerciauxIndexRoute
+  '/devis': typeof ErpDevisIndexRoute
+  '/factures': typeof ErpFacturesIndexRoute
+  '/fournisseurs': typeof ErpFournisseursIndexRoute
+  '/paiements': typeof ErpPaiementsIndexRoute
+  '/commandes/$id/modifier': typeof ErpCommandesIdModifierRoute
+  '/devis/$id/modifier': typeof ErpDevisIdModifierRoute
+  '/commandes/$id': typeof ErpCommandesIdIndexRoute
+  '/devis/$id': typeof ErpDevisIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_erp': typeof ErpRouteWithChildren
+  '/_erp/activites': typeof ErpActivitesRoute
+  '/_erp/notifications': typeof ErpNotificationsRoute
+  '/_erp/parametres': typeof ErpParametresRoute
+  '/_erp/performances': typeof ErpPerformancesRoute
   '/_erp/produits': typeof ErpProduitsRoute
+  '/_erp/rapports': typeof ErpRapportsRoute
+  '/_erp/stocks': typeof ErpStocksRoute
   '/_erp/tableau-de-bord': typeof ErpTableauDeBordRoute
+  '/_erp/clients/$id': typeof ErpClientsIdRoute
+  '/_erp/commandes/nouvelle': typeof ErpCommandesNouvelleRoute
+  '/_erp/commerciaux/$id': typeof ErpCommerciauxIdRoute
+  '/_erp/devis/nouveau': typeof ErpDevisNouveauRoute
+  '/_erp/factures/$id': typeof ErpFacturesIdRoute
+  '/_erp/clients/': typeof ErpClientsIndexRoute
+  '/_erp/commandes/': typeof ErpCommandesIndexRoute
+  '/_erp/commerciaux/': typeof ErpCommerciauxIndexRoute
+  '/_erp/devis/': typeof ErpDevisIndexRoute
+  '/_erp/factures/': typeof ErpFacturesIndexRoute
+  '/_erp/fournisseurs/': typeof ErpFournisseursIndexRoute
+  '/_erp/paiements/': typeof ErpPaiementsIndexRoute
+  '/_erp/commandes/$id/modifier': typeof ErpCommandesIdModifierRoute
+  '/_erp/devis/$id/modifier': typeof ErpDevisIdModifierRoute
+  '/_erp/commandes/$id/': typeof ErpCommandesIdIndexRoute
+  '/_erp/devis/$id/': typeof ErpDevisIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/produits' | '/tableau-de-bord'
+  fullPaths:
+    | '/'
+    | '/activites'
+    | '/notifications'
+    | '/parametres'
+    | '/performances'
+    | '/produits'
+    | '/rapports'
+    | '/stocks'
+    | '/tableau-de-bord'
+    | '/clients/$id'
+    | '/commandes/nouvelle'
+    | '/commerciaux/$id'
+    | '/devis/nouveau'
+    | '/factures/$id'
+    | '/clients/'
+    | '/commandes/'
+    | '/commerciaux/'
+    | '/devis/'
+    | '/factures/'
+    | '/fournisseurs/'
+    | '/paiements/'
+    | '/commandes/$id/modifier'
+    | '/devis/$id/modifier'
+    | '/commandes/$id/'
+    | '/devis/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/produits' | '/tableau-de-bord'
-  id: '__root__' | '/' | '/_erp' | '/_erp/produits' | '/_erp/tableau-de-bord'
+  to:
+    | '/'
+    | '/activites'
+    | '/notifications'
+    | '/parametres'
+    | '/performances'
+    | '/produits'
+    | '/rapports'
+    | '/stocks'
+    | '/tableau-de-bord'
+    | '/clients/$id'
+    | '/commandes/nouvelle'
+    | '/commerciaux/$id'
+    | '/devis/nouveau'
+    | '/factures/$id'
+    | '/clients'
+    | '/commandes'
+    | '/commerciaux'
+    | '/devis'
+    | '/factures'
+    | '/fournisseurs'
+    | '/paiements'
+    | '/commandes/$id/modifier'
+    | '/devis/$id/modifier'
+    | '/commandes/$id'
+    | '/devis/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_erp'
+    | '/_erp/activites'
+    | '/_erp/notifications'
+    | '/_erp/parametres'
+    | '/_erp/performances'
+    | '/_erp/produits'
+    | '/_erp/rapports'
+    | '/_erp/stocks'
+    | '/_erp/tableau-de-bord'
+    | '/_erp/clients/$id'
+    | '/_erp/commandes/nouvelle'
+    | '/_erp/commerciaux/$id'
+    | '/_erp/devis/nouveau'
+    | '/_erp/factures/$id'
+    | '/_erp/clients/'
+    | '/_erp/commandes/'
+    | '/_erp/commerciaux/'
+    | '/_erp/devis/'
+    | '/_erp/factures/'
+    | '/_erp/fournisseurs/'
+    | '/_erp/paiements/'
+    | '/_erp/commandes/$id/modifier'
+    | '/_erp/devis/$id/modifier'
+    | '/_erp/commandes/$id/'
+    | '/_erp/devis/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,11 +355,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_erp/activites': {
+      id: '/_erp/activites'
+      path: '/activites'
+      fullPath: '/activites'
+      preLoaderRoute: typeof ErpActivitesRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/notifications': {
+      id: '/_erp/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof ErpNotificationsRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/parametres': {
+      id: '/_erp/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof ErpParametresRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/performances': {
+      id: '/_erp/performances'
+      path: '/performances'
+      fullPath: '/performances'
+      preLoaderRoute: typeof ErpPerformancesRouteImport
+      parentRoute: typeof ErpRoute
+    }
     '/_erp/produits': {
       id: '/_erp/produits'
       path: '/produits'
       fullPath: '/produits'
       preLoaderRoute: typeof ErpProduitsRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/rapports': {
+      id: '/_erp/rapports'
+      path: '/rapports'
+      fullPath: '/rapports'
+      preLoaderRoute: typeof ErpRapportsRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/stocks': {
+      id: '/_erp/stocks'
+      path: '/stocks'
+      fullPath: '/stocks'
+      preLoaderRoute: typeof ErpStocksRouteImport
       parentRoute: typeof ErpRoute
     }
     '/_erp/tableau-de-bord': {
@@ -94,17 +411,173 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErpTableauDeBordRouteImport
       parentRoute: typeof ErpRoute
     }
+    '/_erp/clients/': {
+      id: '/_erp/clients/'
+      path: '/clients'
+      fullPath: '/clients/'
+      preLoaderRoute: typeof ErpClientsIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/clients/$id': {
+      id: '/_erp/clients/$id'
+      path: '/clients/$id'
+      fullPath: '/clients/$id'
+      preLoaderRoute: typeof ErpClientsIdRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commandes/': {
+      id: '/_erp/commandes/'
+      path: '/commandes'
+      fullPath: '/commandes/'
+      preLoaderRoute: typeof ErpCommandesIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commandes/nouvelle': {
+      id: '/_erp/commandes/nouvelle'
+      path: '/commandes/nouvelle'
+      fullPath: '/commandes/nouvelle'
+      preLoaderRoute: typeof ErpCommandesNouvelleRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commerciaux/': {
+      id: '/_erp/commerciaux/'
+      path: '/commerciaux'
+      fullPath: '/commerciaux/'
+      preLoaderRoute: typeof ErpCommerciauxIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commerciaux/$id': {
+      id: '/_erp/commerciaux/$id'
+      path: '/commerciaux/$id'
+      fullPath: '/commerciaux/$id'
+      preLoaderRoute: typeof ErpCommerciauxIdRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/devis/': {
+      id: '/_erp/devis/'
+      path: '/devis'
+      fullPath: '/devis/'
+      preLoaderRoute: typeof ErpDevisIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/devis/nouveau': {
+      id: '/_erp/devis/nouveau'
+      path: '/devis/nouveau'
+      fullPath: '/devis/nouveau'
+      preLoaderRoute: typeof ErpDevisNouveauRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/factures/': {
+      id: '/_erp/factures/'
+      path: '/factures'
+      fullPath: '/factures/'
+      preLoaderRoute: typeof ErpFacturesIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/factures/$id': {
+      id: '/_erp/factures/$id'
+      path: '/factures/$id'
+      fullPath: '/factures/$id'
+      preLoaderRoute: typeof ErpFacturesIdRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/fournisseurs/': {
+      id: '/_erp/fournisseurs/'
+      path: '/fournisseurs'
+      fullPath: '/fournisseurs/'
+      preLoaderRoute: typeof ErpFournisseursIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/paiements/': {
+      id: '/_erp/paiements/'
+      path: '/paiements'
+      fullPath: '/paiements/'
+      preLoaderRoute: typeof ErpPaiementsIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commandes/$id/': {
+      id: '/_erp/commandes/$id/'
+      path: '/commandes/$id'
+      fullPath: '/commandes/$id/'
+      preLoaderRoute: typeof ErpCommandesIdIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/commandes/$id/modifier': {
+      id: '/_erp/commandes/$id/modifier'
+      path: '/commandes/$id/modifier'
+      fullPath: '/commandes/$id/modifier'
+      preLoaderRoute: typeof ErpCommandesIdModifierRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/devis/$id/': {
+      id: '/_erp/devis/$id/'
+      path: '/devis/$id'
+      fullPath: '/devis/$id/'
+      preLoaderRoute: typeof ErpDevisIdIndexRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/devis/$id/modifier': {
+      id: '/_erp/devis/$id/modifier'
+      path: '/devis/$id/modifier'
+      fullPath: '/devis/$id/modifier'
+      preLoaderRoute: typeof ErpDevisIdModifierRouteImport
+      parentRoute: typeof ErpRoute
+    }
   }
 }
 
 interface ErpRouteChildren {
+  ErpActivitesRoute: typeof ErpActivitesRoute
+  ErpNotificationsRoute: typeof ErpNotificationsRoute
+  ErpParametresRoute: typeof ErpParametresRoute
+  ErpPerformancesRoute: typeof ErpPerformancesRoute
   ErpProduitsRoute: typeof ErpProduitsRoute
+  ErpRapportsRoute: typeof ErpRapportsRoute
+  ErpStocksRoute: typeof ErpStocksRoute
   ErpTableauDeBordRoute: typeof ErpTableauDeBordRoute
+  ErpClientsIdRoute: typeof ErpClientsIdRoute
+  ErpCommandesNouvelleRoute: typeof ErpCommandesNouvelleRoute
+  ErpCommerciauxIdRoute: typeof ErpCommerciauxIdRoute
+  ErpDevisNouveauRoute: typeof ErpDevisNouveauRoute
+  ErpFacturesIdRoute: typeof ErpFacturesIdRoute
+  ErpClientsIndexRoute: typeof ErpClientsIndexRoute
+  ErpCommandesIndexRoute: typeof ErpCommandesIndexRoute
+  ErpCommerciauxIndexRoute: typeof ErpCommerciauxIndexRoute
+  ErpDevisIndexRoute: typeof ErpDevisIndexRoute
+  ErpFacturesIndexRoute: typeof ErpFacturesIndexRoute
+  ErpFournisseursIndexRoute: typeof ErpFournisseursIndexRoute
+  ErpPaiementsIndexRoute: typeof ErpPaiementsIndexRoute
+  ErpCommandesIdModifierRoute: typeof ErpCommandesIdModifierRoute
+  ErpDevisIdModifierRoute: typeof ErpDevisIdModifierRoute
+  ErpCommandesIdIndexRoute: typeof ErpCommandesIdIndexRoute
+  ErpDevisIdIndexRoute: typeof ErpDevisIdIndexRoute
 }
 
 const ErpRouteChildren: ErpRouteChildren = {
+  ErpActivitesRoute: ErpActivitesRoute,
+  ErpNotificationsRoute: ErpNotificationsRoute,
+  ErpParametresRoute: ErpParametresRoute,
+  ErpPerformancesRoute: ErpPerformancesRoute,
   ErpProduitsRoute: ErpProduitsRoute,
+  ErpRapportsRoute: ErpRapportsRoute,
+  ErpStocksRoute: ErpStocksRoute,
   ErpTableauDeBordRoute: ErpTableauDeBordRoute,
+  ErpClientsIdRoute: ErpClientsIdRoute,
+  ErpCommandesNouvelleRoute: ErpCommandesNouvelleRoute,
+  ErpCommerciauxIdRoute: ErpCommerciauxIdRoute,
+  ErpDevisNouveauRoute: ErpDevisNouveauRoute,
+  ErpFacturesIdRoute: ErpFacturesIdRoute,
+  ErpClientsIndexRoute: ErpClientsIndexRoute,
+  ErpCommandesIndexRoute: ErpCommandesIndexRoute,
+  ErpCommerciauxIndexRoute: ErpCommerciauxIndexRoute,
+  ErpDevisIndexRoute: ErpDevisIndexRoute,
+  ErpFacturesIndexRoute: ErpFacturesIndexRoute,
+  ErpFournisseursIndexRoute: ErpFournisseursIndexRoute,
+  ErpPaiementsIndexRoute: ErpPaiementsIndexRoute,
+  ErpCommandesIdModifierRoute: ErpCommandesIdModifierRoute,
+  ErpDevisIdModifierRoute: ErpDevisIdModifierRoute,
+  ErpCommandesIdIndexRoute: ErpCommandesIdIndexRoute,
+  ErpDevisIdIndexRoute: ErpDevisIdIndexRoute,
 }
 
 const ErpRouteWithChildren = ErpRoute._addFileChildren(ErpRouteChildren)

@@ -22,7 +22,13 @@ export interface PeriodValue {
   to?: Date;
 }
 
-export function PeriodFilter({ value, onChange }: { value: PeriodValue; onChange: (v: PeriodValue) => void }) {
+export function PeriodFilter({
+  value,
+  onChange,
+}: {
+  value: PeriodValue;
+  onChange: (v: PeriodValue) => void;
+}) {
   const [open, setOpen] = useState(false);
   const opts: Periode[] = ["jour", "semaine", "mois", "annee"];
   return (
@@ -35,7 +41,9 @@ export function PeriodFilter({ value, onChange }: { value: PeriodValue; onChange
             onClick={() => onChange({ periode: p })}
             className={cn(
               "rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors sm:px-3",
-              value.periode === p ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+              value.periode === p
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {PERIODE_LABELS[p]}
@@ -44,9 +52,15 @@ export function PeriodFilter({ value, onChange }: { value: PeriodValue; onChange
       </div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant={value.periode === "perso" ? "default" : "outline"} size="sm" className="h-8">
+          <Button
+            variant={value.periode === "perso" ? "default" : "outline"}
+            size="sm"
+            className="h-8"
+          >
             <CalendarRange />
-            {value.periode === "perso" && value.from ? `${fmtDate(value.from.toISOString())} → ${fmtDate((value.to ?? value.from).toISOString())}` : "Période personnalisée"}
+            {value.periode === "perso" && value.from
+              ? `${fmtDate(value.from.toISOString())} → ${fmtDate((value.to ?? value.from).toISOString())}`
+              : "Période personnalisée"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="end">

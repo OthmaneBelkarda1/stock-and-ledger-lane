@@ -1,10 +1,24 @@
-import { cartonsCommande, dansPlage, estVente, ligneNet, round2, stockDisponible, stockPhysique, stockReserve, totaux, etatStock, type Plage } from "./calc";
+import {
+  cartonsCommande,
+  dansPlage,
+  estVente,
+  ligneNet,
+  round2,
+  stockDisponible,
+  stockPhysique,
+  stockReserve,
+  totaux,
+  etatStock,
+  type Plage,
+} from "./calc";
 import { CATEGORIES } from "./constants";
 import { fmtMonthShort } from "./format";
 import type { Commande, ErpData } from "./types";
 
-export const ventesDans = (cmds: Commande[], p: Plage) => cmds.filter((c) => estVente(c) && dansPlage(c.date, p));
-export const ca = (cmds: Commande[]) => round2(cmds.filter(estVente).reduce((s, c) => s + totaux(c).ttc, 0));
+export const ventesDans = (cmds: Commande[], p: Plage) =>
+  cmds.filter((c) => estVente(c) && dansPlage(c.date, p));
+export const ca = (cmds: Commande[]) =>
+  round2(cmds.filter(estVente).reduce((s, c) => s + totaux(c).ttc, 0));
 
 export function caParMois(cmds: Commande[], now = new Date(), mois = 12) {
   const res: { mois: string; ca: number; commandes: number; key: string }[] = [];
@@ -13,7 +27,12 @@ export function caParMois(cmds: Commande[], now = new Date(), mois = 12) {
     const end = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999);
     const list = ventesDans(cmds, { start: d, end });
     const label = fmtMonthShort(d);
-    res.push({ key: `${d.getFullYear()}-${d.getMonth()}`, mois: label.charAt(0).toUpperCase() + label.slice(1), ca: ca(list), commandes: list.length });
+    res.push({
+      key: `${d.getFullYear()}-${d.getMonth()}`,
+      mois: label.charAt(0).toUpperCase() + label.slice(1),
+      ca: ca(list),
+      commandes: list.length,
+    });
   }
   return res;
 }
@@ -23,7 +42,15 @@ export function caParCommercial(data: ErpData, cmds: Commande[]) {
     .filter((u) => u.role === "commercial")
     .map((u) => {
       const list = cmds.filter((c) => c.commercialId === u.id && estVente(c));
-      return { id: u.id, nom: u.nom, prenom: u.nom.split(" ")[0], ca: ca(list), commandes: list.length, objectif: u.objectifMensuel, actif: u.actif };
+      return {
+        id: u.id,
+        nom: u.nom,
+        prenom: u.nom.split(" ")[0],
+        ca: ca(list),
+        commandes: list.length,
+        objectif: u.objectifMensuel,
+        actif: u.actif,
+      };
     })
     .sort((a, b) => b.ca - a.ca);
 }
@@ -46,7 +73,14 @@ export function topProduits(data: ErpData, cmds: Commande[], n = 10) {
   return [...map.entries()]
     .map(([pid, v]) => {
       const p = data.products.find((x) => x.id === pid);
-      return { id: pid, nom: p?.nom ?? "Produit supprimé", court: (p?.nom ?? "—").split(" ").slice(0, 2).join(" "), quantite: v.quantite, ca: round2(v.ca), image: p?.image ?? "" };
+      return {
+        id: pid,
+        nom: p?.nom ?? "Produit supprimé",
+        court: (p?.nom ?? "—").split(" ").slice(0, 2).join(" "),
+        quantite: v.quantite,
+        ca: round2(v.ca),
+        image: p?.image ?? "",
+      };
     })
     .sort((a, b) => b.ca - a.ca)
     .slice(0, n);
@@ -61,7 +95,10 @@ export function caParCategorie(data: ErpData, cmds: Commande[]) {
       if (p) map.set(p.categorie, (map.get(p.categorie) ?? 0) + ligneNet(l) * facteur);
     }
   }
-  return [...map.entries()].map(([categorie, v]) => ({ categorie, ca: round2(v) })).filter((x) => x.ca > 0).sort((a, b) => b.ca - a.ca);
+  return [...map.entries()]
+    .map(([categorie, v]) => ({ categorie, ca: round2(v) }))
+    .filter((x) => x.ca > 0)
+    .sort((a, b) => b.ca - a.ca);
 }
 
 export function syntheseStock(data: ErpData) {
@@ -84,5 +121,14 @@ export function syntheseStock(data: ErpData) {
     if (etat === "rupture") rupture++;
     return { product: p, physique: phys, reserve: res, disponible: dispo, etat };
   });
-  return { valeur: round2(valeur), disponible, reserve, faible, rupture, m2: round2(m2), lignes, references: data.products.length };
+  return {
+    valeur: round2(valeur),
+    disponible,
+    reserve,
+    faible,
+    rupture,
+    m2: round2(m2),
+    lignes,
+    references: data.products.length,
+  };
 }

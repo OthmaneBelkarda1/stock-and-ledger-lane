@@ -1,7 +1,21 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export function SectionCard({ title, description, action, children, className, bodyClassName }: { title?: ReactNode; description?: ReactNode; action?: ReactNode; children: ReactNode; className?: string; bodyClassName?: string }) {
+export function SectionCard({
+  title,
+  description,
+  action,
+  children,
+  className,
+  bodyClassName,
+}: {
+  title?: ReactNode;
+  description?: ReactNode;
+  action?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  bodyClassName?: string;
+}) {
   return (
     <section className={cn("card-surface fade-up flex flex-col", className)}>
       {(title || action) && (

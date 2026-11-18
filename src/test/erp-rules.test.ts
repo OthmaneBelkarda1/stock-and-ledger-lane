@@ -1,5 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { cartonsNecessaires, cartonsToM2, soldeFacture, statutFacture, stockDisponible, stockPhysique, stockReserve, totaux } from "@/lib/erp/calc";
+import {
+  cartonsNecessaires,
+  cartonsToM2,
+  soldeFacture,
+  statutFacture,
+  stockDisponible,
+  stockPhysique,
+  stockReserve,
+  totaux,
+} from "@/lib/erp/calc";
 import { createSeed } from "@/lib/erp/seed";
 import { useErp } from "@/lib/erp/store";
 
@@ -18,7 +27,17 @@ describe("Conversions céramique", () => {
 describe("Montants des documents", () => {
   it("calcule remise ligne, remise globale, TVA 20 % et TTC", () => {
     const t = totaux({
-      lignes: [{ id: "1", productId: "x", designation: "", unite: "carton", quantite: 10, prixUnitaire: 100, remise: 10 }],
+      lignes: [
+        {
+          id: "1",
+          productId: "x",
+          designation: "",
+          unite: "carton",
+          quantite: 10,
+          prixUnitaire: 100,
+          remise: 10,
+        },
+      ],
       tauxTVA: 20,
       remiseGlobale: 5,
     });
@@ -44,7 +63,17 @@ describe("Parcours devis → commande → facture → paiement", () => {
       date: new Date().toISOString(),
       validite: new Date().toISOString(),
       statut: "envoye",
-      lignes: [{ id: "l1", productId: pid, designation: "Test", unite: "carton", quantite: 20, prixUnitaire: 416.16, remise: 0 }],
+      lignes: [
+        {
+          id: "l1",
+          productId: pid,
+          designation: "Test",
+          unite: "carton",
+          quantite: 20,
+          prixUnitaire: 416.16,
+          remise: 0,
+        },
+      ],
       tauxTVA: 20,
       remiseGlobale: 0,
       notes: "",
@@ -68,11 +97,27 @@ describe("Parcours devis → commande → facture → paiement", () => {
     const fid = s.genererFacture(cmd.id);
     const f = useErp.getState().data.factures.find((x) => x.id === fid)!;
     const ttc = totaux(f).ttc;
-    useErp.getState().addPaiement({ factureId: fid, montant: 1000, mode: "cheque", date: new Date().toISOString(), reference: "", note: "" });
+    useErp.getState().addPaiement({
+      factureId: fid,
+      montant: 1000,
+      mode: "cheque",
+      date: new Date().toISOString(),
+      reference: "",
+      note: "",
+    });
     const d = useErp.getState().data;
     expect(soldeFacture(d, f).reste).toBeCloseTo(ttc - 1000, 2);
     expect(statutFacture(d, f)).toBe("partielle");
-    expect(() => useErp.getState().addPaiement({ factureId: fid, montant: ttc, mode: "cheque", date: "", reference: "", note: "" })).toThrow();
+    expect(() =>
+      useErp.getState().addPaiement({
+        factureId: fid,
+        montant: ttc,
+        mode: "cheque",
+        date: "",
+        reference: "",
+        note: "",
+      }),
+    ).toThrow();
   });
 
   it("un commercial ne peut pas confirmer une commande sans stock disponible négatif caché", () => {

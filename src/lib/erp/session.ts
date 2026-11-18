@@ -7,7 +7,11 @@ interface SessionState {
   userId: string | null;
   ready: boolean;
   init: () => void;
-  login: (email: string, password: string, remember: boolean) => { ok: true } | { ok: false; error: string };
+  login: (
+    email: string,
+    password: string,
+    remember: boolean,
+  ) => { ok: true } | { ok: false; error: string };
   loginAs: (userId: string) => void;
   logout: () => void;
 }
@@ -35,11 +39,15 @@ export const useSession = create<SessionState>()((set) => ({
   },
   login: (email, password, remember) => {
     const e = email.trim().toLowerCase();
-    if (!e || !password) return { ok: false, error: "Veuillez saisir votre adresse e-mail et votre mot de passe." };
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return { ok: false, error: "L'adresse e-mail saisie n'est pas valide." };
+    if (!e || !password)
+      return { ok: false, error: "Veuillez saisir votre adresse e-mail et votre mot de passe." };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))
+      return { ok: false, error: "L'adresse e-mail saisie n'est pas valide." };
     const user = useErp.getState().data.users.find((u) => u.email.toLowerCase() === e);
-    if (!user || user.motDePasse !== password) return { ok: false, error: "Adresse e-mail ou mot de passe incorrect." };
-    if (!user.actif) return { ok: false, error: "Ce compte est désactivé. Contactez votre administrateur." };
+    if (!user || user.motDePasse !== password)
+      return { ok: false, error: "Adresse e-mail ou mot de passe incorrect." };
+    if (!user.actif)
+      return { ok: false, error: "Ce compte est désactivé. Contactez votre administrateur." };
     try {
       localStorage.removeItem(KEY);
       sessionStorage.removeItem(KEY);

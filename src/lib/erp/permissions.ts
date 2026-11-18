@@ -35,7 +35,10 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   changer_statut_commande: "Faire avancer les commandes (préparation, livraison)",
 };
 
-export const ROLE_LABELS: Record<Role, string> = { admin: "Administrateur", commercial: "Commercial" };
+export const ROLE_LABELS: Record<Role, string> = {
+  admin: "Administrateur",
+  commercial: "Commercial",
+};
 
 const ALL = Object.keys(PERMISSION_LABELS) as Permission[];
 

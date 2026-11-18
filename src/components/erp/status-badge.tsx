@@ -30,7 +30,17 @@ const dot: Record<Tone, string> = {
   sand: "bg-sand-foreground",
 };
 
-export function StatusBadge({ tone, children, className, withDot = true }: { tone: Tone; children: React.ReactNode; className?: string; withDot?: boolean }) {
+export function StatusBadge({
+  tone,
+  children,
+  className,
+  withDot = true,
+}: {
+  tone: Tone;
+  children: React.ReactNode;
+  className?: string;
+  withDot?: boolean;
+}) {
   return (
     <span className={cn(toneVariants({ tone }), className)}>
       {withDot && <span className={cn("size-1.5 rounded-full", dot[tone])} />}

@@ -33,7 +33,9 @@ export function AppSidebar() {
           <CompanyLogo variant="dark" className="group-data-[collapsible=icon]:size-8" />
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
             <CompanyName className="block truncate text-sm font-semibold text-sidebar-accent-foreground" />
-            <span className="block truncate text-[11px] text-sidebar-muted">Espace {ROLE_LABELS[user.role].toLowerCase()}</span>
+            <span className="block truncate text-[11px] text-sidebar-muted">
+              Espace {ROLE_LABELS[user.role].toLowerCase()}
+            </span>
           </div>
         </div>
       </SidebarHeader>
@@ -57,7 +59,9 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                     {item.url === "/notifications" && unread > 0 && (
-                      <SidebarMenuBadge className="bg-sidebar-accent text-sidebar-accent-foreground">{unread}</SidebarMenuBadge>
+                      <SidebarMenuBadge className="bg-sidebar-accent text-sidebar-accent-foreground">
+                        {unread}
+                      </SidebarMenuBadge>
                     )}
                   </SidebarMenuItem>
                 ))}

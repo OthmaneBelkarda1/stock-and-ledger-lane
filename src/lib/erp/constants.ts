@@ -37,7 +37,16 @@ export const CLIENT_TYPES: ClientType[] = [
   "Architecte",
   "Revendeur",
 ];
-export const VILLES = ["Casablanca", "Rabat", "Témara", "Salé", "Marrakech", "Tanger", "Agadir", "Fès"];
+export const VILLES = [
+  "Casablanca",
+  "Rabat",
+  "Témara",
+  "Salé",
+  "Marrakech",
+  "Tanger",
+  "Agadir",
+  "Fès",
+];
 
 export const UNITE_LABELS: Record<Unite, string> = { carton: "Carton", m2: "m²", piece: "Pièce" };
 
@@ -59,7 +68,13 @@ export const COMMANDE_STATUTS: Record<CommandeStatut, { label: string; tone: Ton
   livree: { label: "Livrée", tone: "success" },
   annulee: { label: "Annulée", tone: "danger" },
 };
-export const COMMANDE_FLOW: CommandeStatut[] = ["en_attente", "confirmee", "en_preparation", "prete", "livree"];
+export const COMMANDE_FLOW: CommandeStatut[] = [
+  "en_attente",
+  "confirmee",
+  "en_preparation",
+  "prete",
+  "livree",
+];
 
 export type FactureStatut = "payee" | "partielle" | "impayee";
 export const FACTURE_STATUTS: Record<FactureStatut, { label: string; tone: Tone }> = {
