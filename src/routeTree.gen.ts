@@ -10,33 +10,58 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ErpRouteImport } from './routes/_erp'
+import { Route as ErpProduitsRouteImport } from './routes/_erp.produits'
+import { Route as ErpTableauDeBordRouteImport } from './routes/_erp.tableau-de-bord'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErpRoute = ErpRouteImport.update({
+  id: '/_erp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ErpProduitsRoute = ErpProduitsRouteImport.update({
+  id: '/produits',
+  path: '/produits',
+  getParentRoute: () => ErpRoute,
+} as any)
+const ErpTableauDeBordRoute = ErpTableauDeBordRouteImport.update({
+  id: '/tableau-de-bord',
+  path: '/tableau-de-bord',
+  getParentRoute: () => ErpRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/produits': typeof ErpProduitsRoute
+  '/tableau-de-bord': typeof ErpTableauDeBordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/produits': typeof ErpProduitsRoute
+  '/tableau-de-bord': typeof ErpTableauDeBordRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_erp': typeof ErpRouteWithChildren
+  '/_erp/produits': typeof ErpProduitsRoute
+  '/_erp/tableau-de-bord': typeof ErpTableauDeBordRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/produits' | '/tableau-de-bord'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/produits' | '/tableau-de-bord'
+  id: '__root__' | '/' | '/_erp' | '/_erp/produits' | '/_erp/tableau-de-bord'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ErpRoute: typeof ErpRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +73,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_erp': {
+      id: '/_erp'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ErpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_erp/produits': {
+      id: '/_erp/produits'
+      path: '/produits'
+      fullPath: '/produits'
+      preLoaderRoute: typeof ErpProduitsRouteImport
+      parentRoute: typeof ErpRoute
+    }
+    '/_erp/tableau-de-bord': {
+      id: '/_erp/tableau-de-bord'
+      path: '/tableau-de-bord'
+      fullPath: '/tableau-de-bord'
+      preLoaderRoute: typeof ErpTableauDeBordRouteImport
+      parentRoute: typeof ErpRoute
+    }
   }
 }
 
+interface ErpRouteChildren {
+  ErpProduitsRoute: typeof ErpProduitsRoute
+  ErpTableauDeBordRoute: typeof ErpTableauDeBordRoute
+}
+
+const ErpRouteChildren: ErpRouteChildren = {
+  ErpProduitsRoute: ErpProduitsRoute,
+  ErpTableauDeBordRoute: ErpTableauDeBordRoute,
+}
+
+const ErpRouteWithChildren = ErpRoute._addFileChildren(ErpRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ErpRoute: ErpRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
